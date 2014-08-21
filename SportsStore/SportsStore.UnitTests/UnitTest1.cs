@@ -15,10 +15,8 @@ using SportsStore.WebUI.Models;
 namespace SportsStore.UnitTests {
     [TestClass]
     public class UnitTest1 {
-        [TestMethod]
-        public void Can_Paginate() {
-            // arrange
-            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+        private Mock<IProductRepository> getRepMock() {
+            var mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(new Product[] {
                 new Product { ProductID = 1, Name = "P1" },
                 new Product { ProductID = 2, Name = "P2" },
@@ -26,14 +24,41 @@ namespace SportsStore.UnitTests {
                 new Product { ProductID = 4, Name = "P4" },
                 new Product { ProductID = 5, Name = "P5" }
             });
-            ProductController controller = new ProductController(mock.Object);
+
+            return mock;
+        }
+
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new ProductController(mock.Object);
             controller.PageSize = 3;
 
             // act
-            IEnumerable<Product> result = (IEnumerable<Product>)controller.List(2).Model;
+            var result = (ProductsListViewModel)controller.List(2).Model;
 
             // assert
-            Product[] prodArray = result.ToArray();
+            var pageInfo = result.PagingInfo;
+            Assert.AreEqual(pageInfo.CurrentPage, 2);
+            Assert.AreEqual(pageInfo.ItemsPerPage, 3);
+            Assert.AreEqual(pageInfo.TotalItems, 5);
+            Assert.AreEqual(pageInfo.TotalPages, 2);
+        }
+
+
+        [TestMethod]
+        public void Can_Paginate() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            // act
+            var result = (ProductsListViewModel)controller.List(2).Model;
+
+            // assert
+            Product[] prodArray = result.Products.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
             Assert.AreEqual(prodArray[0].Name, "P4");
             Assert.AreEqual(prodArray[1].Name, "P5");
