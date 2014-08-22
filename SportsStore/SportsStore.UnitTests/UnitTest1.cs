@@ -18,11 +18,11 @@ namespace SportsStore.UnitTests {
         private Mock<IProductRepository> getRepMock() {
             var mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(new Product[] {
-                new Product { ProductID = 1, Name = "P1" },
-                new Product { ProductID = 2, Name = "P2" },
-                new Product { ProductID = 3, Name = "P3" },
-                new Product { ProductID = 4, Name = "P4" },
-                new Product { ProductID = 5, Name = "P5" }
+                new Product { ProductID = 1, Name = "P1", Category = "Cat1" },
+                new Product { ProductID = 2, Name = "P2", Category = "Cat2" },
+                new Product { ProductID = 3, Name = "P3", Category = "Cat1" },
+                new Product { ProductID = 4, Name = "P4", Category = "Cat2" },
+                new Product { ProductID = 5, Name = "P5", Category = "Cat3" }
             });
 
             return mock;
@@ -36,7 +36,7 @@ namespace SportsStore.UnitTests {
             controller.PageSize = 3;
 
             // act
-            var result = (ProductsListViewModel)controller.List(2).Model;
+            var result = (ProductsListViewModel)controller.List(null, 2).Model;
 
             // assert
             var pageInfo = result.PagingInfo;
@@ -55,7 +55,7 @@ namespace SportsStore.UnitTests {
             controller.PageSize = 3;
 
             // act
-            var result = (ProductsListViewModel)controller.List(2).Model;
+            var result = (ProductsListViewModel)controller.List(null, 2).Model;
 
             // assert
             Product[] prodArray = result.Products.ToArray();
@@ -83,6 +83,23 @@ namespace SportsStore.UnitTests {
             Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a>"
                 + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
                 + @"<a class=""btn btn-default"" href=""Page3"">3</a>", result.ToString());
+        }
+
+
+        [TestMethod]
+        public void Can_Filter_Products() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            // act
+            var result = ((ProductsListViewModel)controller.List("Cat2", 1).Model).Products.ToArray();
+
+            // assert
+            Assert.AreEqual(result.Length, 2);
+            Assert.IsTrue(result[0].Name == "P2" && result[0].Category == "Cat2");
+            Assert.IsTrue(result[1].Name == "P4" && result[1].Category == "Cat2");
         }
     }
 }
