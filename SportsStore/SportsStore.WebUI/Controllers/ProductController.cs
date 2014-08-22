@@ -30,7 +30,9 @@ namespace SportsStore.WebUI.Controllers
                 PagingInfo = new PagingInfo {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Products.Count()
+                    TotalItems = (category == null) 
+                        ? repository.Products.Count()
+                        : repository.Products.Where(prod => prod.Category == category).Count()
                 },
                 CurrentCategory = category
             };

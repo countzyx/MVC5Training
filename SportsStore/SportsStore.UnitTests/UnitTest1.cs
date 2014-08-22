@@ -132,5 +132,27 @@ namespace SportsStore.UnitTests {
             // assert
             Assert.AreEqual(categoryToSelect, result);
         }
+
+
+        [TestMethod]
+        public void Generate_Category_Specific_Product_Count() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            // act
+            var results = new int[4];
+            results[0] = ((ProductsListViewModel)controller.List(null).Model).PagingInfo.TotalItems;
+            results[1] = ((ProductsListViewModel)controller.List("Cat1").Model).PagingInfo.TotalItems;
+            results[2] = ((ProductsListViewModel)controller.List("Cat2").Model).PagingInfo.TotalItems;
+            results[3] = ((ProductsListViewModel)controller.List("Cat3").Model).PagingInfo.TotalItems;
+            
+            // assert
+            Assert.AreEqual(results[0], 5);
+            Assert.AreEqual(results[1], 2);
+            Assert.AreEqual(results[2], 2);
+            Assert.AreEqual(results[3], 1);
+        }
     }
 }
