@@ -117,5 +117,20 @@ namespace SportsStore.UnitTests {
             Assert.AreEqual(results[1], "Cat2");
             Assert.AreEqual(results[2], "Cat3");
         }
+
+
+        [TestMethod]
+        public void Indicates_Selected_Category() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new NavController(mock.Object);
+            var categoryToSelect = "Cat3";
+
+            // act
+            var result = controller.Menu(categoryToSelect).ViewBag.SelectedCategory;
+
+            // assert
+            Assert.AreEqual(categoryToSelect, result);
+        }
     }
 }
