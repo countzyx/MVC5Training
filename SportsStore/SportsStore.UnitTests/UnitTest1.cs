@@ -101,5 +101,21 @@ namespace SportsStore.UnitTests {
             Assert.IsTrue(result[0].Name == "P2" && result[0].Category == "Cat2");
             Assert.IsTrue(result[1].Name == "P4" && result[1].Category == "Cat2");
         }
+
+        
+        [TestMethod]
+        public void Can_Create_Categories() {
+            // arrange
+            var mock = getRepMock();
+            var controller = new NavController(mock.Object);
+
+            // act
+            var results = ((IEnumerable<string>)controller.Menu().Model).ToArray();
+
+            Assert.AreEqual(results.Length, 3);
+            Assert.AreEqual(results[0], "Cat1");
+            Assert.AreEqual(results[1], "Cat2");
+            Assert.AreEqual(results[2], "Cat3");
+        }
     }
 }
