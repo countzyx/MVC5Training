@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
-
+using SportsStore.WebUI.Models;
 
 namespace SportsStore.WebUI.Controllers
 {
@@ -23,6 +23,14 @@ namespace SportsStore.WebUI.Controllers
             }
             return cart;
         }
+
+        public ViewResult Index(string returnUrl) {
+            return View(new CartIndexViewModel {
+                Cart = GetCart(),
+                ReturnUrl = returnUrl
+            });
+        }
+
 
         public RedirectToRouteResult AddToCart(int productId, string returnUrl) {
             var product = repository.Products
