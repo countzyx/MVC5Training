@@ -32,9 +32,9 @@ namespace SportsStore.WebUI.Controllers
         }
 
 
-        public RedirectToRouteResult AddToCart(Cart cartParam, int productIdParam, string returnUrl) {
+        public RedirectToRouteResult AddToCart(Cart cartParam, int productId, string returnUrl) {
             var product = repository.Products
-                .FirstOrDefault(prod => prod.ProductID == productIdParam);
+                .FirstOrDefault(prod => prod.ProductID == productId);
 
             if (product != null) {
                 cartParam.AddItem(product, 1);
@@ -44,9 +44,9 @@ namespace SportsStore.WebUI.Controllers
         }
 
 
-        public RedirectToRouteResult RemoveFromCart(Cart cartParam, int productIdParam, string returnUrl) {
+        public RedirectToRouteResult RemoveFromCart(Cart cartParam, int productId, string returnUrl) {
             var product = repository.Products
-                .FirstOrDefault(prod => prod.ProductID == productIdParam);
+                .FirstOrDefault(prod => prod.ProductID == productId);
 
             if (product != null) {
                 cartParam.RemoveLine(product);
