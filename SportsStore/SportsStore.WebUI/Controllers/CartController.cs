@@ -15,15 +15,6 @@ namespace SportsStore.WebUI.Controllers
         }
 
 
-        private Cart GetCart() {
-            var cart = Session["Cart"] as Cart;
-            if (cart == null) {
-                cart = new Cart();
-                Session["Cart"] = cart;
-            }
-            return cart;
-        }
-
         public ViewResult Index(Cart cartParam, string returnUrlParam) {
             return View(new CartIndexViewModel {
                 Cart = cartParam,
@@ -53,6 +44,11 @@ namespace SportsStore.WebUI.Controllers
             }
 
             return RedirectToAction("Index", new { returnUrl });
+        }
+
+
+        public PartialViewResult Summary(Cart cart) {
+            return PartialView(cart);
         }
     }
 }
