@@ -1,18 +1,21 @@
 ﻿@model SportsStore.Domain.Entities.Product
 
 <div data-role="collapsible" data-collapsed="false" data-content-theme="c">
-    @if (Model.ImageData != null) {
-        <div class="pull-left" style="margin-right: 10px">
-            <img class="img-thumbnail" width="75" height="75"
-                 src="@Url.Action("GetImage", "Product", new { Model.ProductID })" />
-        </div>
-    }
     <h2>
         @Model.Name
     </h2>
     <div class="ui-grid-b">
         <div class="ui-block-a">
-            @Model.Description
+            @if (Model.ImageData == null) {
+                @Model.Description
+            } else {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                         src="@Url.Action("GetImage", "Product", new { Model.ProductID })"
+                         alt="@Html.Encode(Model.Description)" 
+                    />
+                </div>
+            }
         </div>
         <div class="ui-block-b">
             <strong>(@Model.Price.ToString("c"))</strong>
