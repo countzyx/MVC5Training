@@ -40,5 +40,37 @@ namespace SportsStore.UnitTests {
             Assert.AreEqual("P2", result[1].Name);
             Assert.AreEqual("P3", result[2].Name);
         }
+
+
+        [TestMethod]
+        public void Can_Edit_Product() {
+            // arrange
+            var mock = getProdMock();
+            var target = new AdminController(mock.Object);
+
+            // act
+            var p1 = target.Edit(1).ViewData.Model as Product;
+            var p2 = target.Edit(2).ViewData.Model as Product;
+            var p3 = target.Edit(3).ViewData.Model as Product;
+
+            // assert
+            Assert.AreEqual(1, p1.ProductID);
+            Assert.AreEqual(2, p2.ProductID);
+            Assert.AreEqual(3, p3.ProductID);
+        }
+
+
+        [TestMethod]
+        public void Cannot_Edit_Nonexistent_Product() {
+            // arrange
+            var mock = getProdMock();
+            var target = new AdminController(mock.Object);
+
+            // act
+            var result = (Product)target.Edit(4).ViewData.Model;
+
+            // assert
+            Assert.IsNull(result);
+        }
     }
 }
