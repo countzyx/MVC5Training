@@ -14,7 +14,7 @@ using SportsStore.WebUI.Models;
 
 namespace SportsStore.UnitTests {
     [TestClass]
-    public class UnitTest1 {
+    public class MainTests {
         private Mock<IProductRepository> getRepMock() {
             var mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(new Product[] {
