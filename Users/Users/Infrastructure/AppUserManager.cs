@@ -13,7 +13,7 @@ namespace Users.Infrastructure {
             var db = context.Get<AppIdentityDbContext>();
             var manager = new AppUserManager(new UserStore<AppUser>(db));
 
-            manager.PasswordValidator = new PasswordValidator {
+            manager.PasswordValidator = new CustomPasswordValidator {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
