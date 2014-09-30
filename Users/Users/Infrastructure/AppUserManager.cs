@@ -21,7 +21,7 @@ namespace Users.Infrastructure {
                 RequireUppercase = true
             };
 
-            manager.UserValidator = new UserValidator<AppUser>(manager) {
+            manager.UserValidator = new CustomUserValidator(manager) {
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true
             };
