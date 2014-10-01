@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -55,6 +56,52 @@ namespace Users.Controllers {
             }
         }
 
+
+        public async Task<ActionResult> Edit(string id) {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null) {
+                return View(user);
+            } else {
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(string id, string email, string password) {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null) {
+                user.Email = email;
+                var validEmail = await UserManager.UserValidator.ValidateAsync(user);
+                if (!validEmail.Succeeded) {
+                    AddErrorsFromResult(validEmail);
+                }
+
+                IdentityResult validPass = null;
+                if (password != String.Empty) {
+                    validPass = await UserManager.PasswordValidator.ValidateAsync(password);
+                    if (validPass.Succeeded) {
+                        user.PasswordHash = UserManager.PasswordHasher.HashPassword(password);
+                    } else {
+                        AddErrorsFromResult(validPass);
+                    }
+                }
+
+                if ((validEmail.Succeeded && validPass == null)
+                    || (validEmail.Succeeded && password != String.Empty && validPass.Succeeded)) {
+                    var result = await UserManager.UpdateAsync(user);
+                    if (result.Succeeded) {
+                        return RedirectToAction("Index");
+                    } else {
+                        AddErrorsFromResult(result);
+                    }
+                }
+            } else {
+                ModelState.AddModelError("", "User Not Found");
+            }
+
+            return View(user);
+        }
 
         private void AddErrorsFromResult(IdentityResult result) {
             foreach (var error in result.Errors) {
