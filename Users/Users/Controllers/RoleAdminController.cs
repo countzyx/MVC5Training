@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 using Users.Infrastructure;
 using Users.Models;
+using Users.Models.UserViewModels;
 
 namespace Users.Controllers
 {
@@ -50,6 +51,44 @@ namespace Users.Controllers
             } else {
                 return View("Error", new string[] { "Role Not Found" });
             }
+        }
+
+
+        public async Task<ActionResult> Edit(string id) {
+            var role = await RoleManager.FindByIdAsync(id);
+            var memberIDs = role.Users.Select(u => u.UserId).ToArray();
+            var members = UserManager.Users.Where(u => memberIDs.Any(i => i == u.Id));
+            var nonMembers = UserManager.Users.Except(members);
+            return View(new RoleEditModel {
+                Role = role,
+                Members = members,
+                NonMembers = nonMembers
+            });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(RoleModificationModel model) {
+            IdentityResult result;
+            if (ModelState.IsValid) {
+                foreach (var userId in model.IdsToAdd ?? new string[] { }) {
+                    result = await UserManager.AddToRoleAsync(userId, model.RoleName);
+                    if (!result.Succeeded) {
+                        return View("Error", result.Errors);
+                    }
+                }
+
+                foreach (var userId in model.IdsToDelete ?? new string[] { }) {
+                    result = await UserManager.RemoveFromRoleAsync(userId, model.RoleName);
+                    if (!result.Succeeded) {
+                        return View("Error", result.Errors);
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            return View("Error", new string[] { "Role Not Found" });
         }
 
 
