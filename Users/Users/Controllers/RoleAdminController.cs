@@ -12,6 +12,7 @@ using Users.Models.UserViewModels;
 
 namespace Users.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class RoleAdminController : Controller {
         public ActionResult Index() {
             return View(RoleManager.Roles);

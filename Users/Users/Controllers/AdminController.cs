@@ -11,6 +11,7 @@ using Users.Models.UserViewModels;
 
 
 namespace Users.Controllers {
+    [Authorize(Roles = "Administrators")]
     public class AdminController : Controller {
         public ActionResult Index() {
             return View(UserManager.Users);
