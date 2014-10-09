@@ -2,7 +2,12 @@
 using System;
 
 namespace Users.Models {
-    public class AppUser : IdentityUser {
+    public enum Cities {
+        LONDON, PARIS, CHICAGO
+    }
 
+
+    public class AppUser : IdentityUser {
+        public Cities City { get; set; }
     }
 }
