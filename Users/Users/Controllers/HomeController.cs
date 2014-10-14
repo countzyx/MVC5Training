@@ -35,6 +35,7 @@ namespace Users.Controllers
         public async Task<ActionResult> UserProps(Cities city) {
             var user = CurrentUser;
             user.City = city;
+            user.SetCountryFromCity(city);
             await UserManager.UpdateAsync(user);
             return View(user);
         }
