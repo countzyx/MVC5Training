@@ -34,6 +34,7 @@ namespace Users.Controllers
                 } else {
                     ClaimsIdentity identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                     identity.AddClaims(LocationClaimsProvider.GetClaims(identity));
+                    identity.AddClaims(ClaimsRoles.CreateRolesFromClaims(identity));
                     AuthManager.SignOut();
                     AuthManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
                     return Redirect(returnUrl);

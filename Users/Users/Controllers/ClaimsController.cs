@@ -14,5 +14,11 @@ namespace Users.Controllers
                 return View(id.Claims);
             }
         }
+
+
+        [Authorize(Roles = "DCStaff")]
+        public string OtherAction() {
+            return "This is the protected action.";
+        }
     }
 }
