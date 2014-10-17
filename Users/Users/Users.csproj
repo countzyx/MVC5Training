@@ -165,6 +165,7 @@
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\IdentityDbInit.cs" />
     <Compile Include="Infrastructure\IdentityHelpers.cs" />
+    <Compile Include="Infrastructure\LocationClaimsProvider.cs" />
     <Compile Include="Migrations\201410090018458_CityProperty.cs" />
     <Compile Include="Migrations\201410090018458_CityProperty.Designer.cs">
       <DependentUpon>201410090018458_CityProperty.cs</DependentUpon>

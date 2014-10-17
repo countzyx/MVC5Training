@@ -33,6 +33,7 @@ namespace Users.Controllers
                     ModelState.AddModelError("", "Invalid name or password.");
                 } else {
                     ClaimsIdentity identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    identity.AddClaims(LocationClaimsProvider.GetClaims(identity));
                     AuthManager.SignOut();
                     AuthManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
                     return Redirect(returnUrl);
