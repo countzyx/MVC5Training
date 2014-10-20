@@ -2,6 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 
+using Users.Infrastructure;
+
 namespace Users.Controllers
 {
     public class ClaimsController : Controller {
@@ -16,7 +18,7 @@ namespace Users.Controllers
         }
 
 
-        [Authorize(Roles = "DCStaff")]
+        [ClaimsAccess(Issuer = "RemoteClaims", ClaimType = ClaimTypes.PostalCode, Value = "DC 20500")]
         public string OtherAction() {
             return "This is the protected action.";
         }
