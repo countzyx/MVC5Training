@@ -43,6 +43,9 @@
     <Compile Include="InfoModule.cs" />
     <Compile Include="ModuleRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestTimerEventArgs.cs" />
+    <Compile Include="TimerModule.cs" />
+    <Compile Include="TotalTimeModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

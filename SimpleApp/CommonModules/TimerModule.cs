@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.Web;
 
-namespace SimpleApp.Infrastructure {
+namespace CommonModules {
     public class TimerModule : IHttpModule {
+        public event EventHandler<RequestTimerEventArgs> RequestTimed;
         private Stopwatch timer;
 
         public void Init(HttpApplication app) {
@@ -12,14 +13,18 @@ namespace SimpleApp.Infrastructure {
         }
 
         public void OnBeginRequest(object src, EventArgs args) {
-            HttpContext ctx = HttpContext.Current;
+            var ctx = HttpContext.Current;
             timer = Stopwatch.StartNew();
         }
 
         public void OnEndRequest(object src, EventArgs args) {
-            HttpContext ctx = HttpContext.Current;
+            var ctx = HttpContext.Current;
+            var duration = (float)timer.ElapsedTicks / Stopwatch.Frequency;
             ctx.Response.Write(String.Format("<div class='alert alert-success'>Elapsed: {0:F5} seconds</div>",
-                ((float)timer.ElapsedTicks / Stopwatch.Frequency)));
+                duration));
+            if (RequestTimed != null) {
+                RequestTimed(this, new RequestTimerEventArgs { Duration = duration });
+            }
         }
 
         public void Dispose() { }
