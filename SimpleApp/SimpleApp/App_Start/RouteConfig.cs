@@ -15,7 +15,9 @@ namespace SimpleApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.Add(new Route("handler/{*path}", new CustomRouteHandler { HandlerType = typeof(DayOfWeekHandler) }));
+//            routes.Add(new Route("handler/{*path}", new CustomRouteHandler { HandlerType = typeof(DayOfWeekHandler) }));
+
+            routes.IgnoreRoute("handler/{*path}");
 
             routes.MapRoute(
                 name: "Default",

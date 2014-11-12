@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Infrastructure\CustomRouteHandler.cs" />
     <Compile Include="Infrastructure\DayOfWeekHandler.cs" />
+    <Compile Include="Infrastructure\SiteLengthHandler.cs" />
     <Compile Include="Models\Votes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
