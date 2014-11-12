@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
+using SimpleApp.Infrastructure;
+
 namespace SimpleApp
 {
     public class RouteConfig
@@ -12,6 +14,8 @@ namespace SimpleApp
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.Add(new Route("handler/{*path}", new CustomRouteHandler { HandlerType = typeof(DayOfWeekHandler) }));
 
             routes.MapRoute(
                 name: "Default",

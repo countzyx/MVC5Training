@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-[assembly: PreApplicationStartMethod(typeof(CommonModules.ModuleRegistration), "RegisterModule")]
+//[assembly: PreApplicationStartMethod(typeof(CommonModules.ModuleRegistration), "RegisterModule")]
 
 namespace CommonModules {
     public class ModuleRegistration {
