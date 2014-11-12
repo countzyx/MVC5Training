@@ -13,7 +13,6 @@ namespace CommonModules {
         }
 
         public void OnBeginRequest(object src, EventArgs args) {
-            var ctx = HttpContext.Current;
             timer = Stopwatch.StartNew();
         }
 

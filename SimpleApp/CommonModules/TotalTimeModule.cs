@@ -9,7 +9,6 @@ namespace CommonModules {
         private static string timerModuleName = null;
 
         public void Init(HttpApplication app) {
-            
             var timerModule = FindTimerModule(app.Modules);
             if (timerModule != null) {
                 timerModule.RequestTimed += (src, args) => {
